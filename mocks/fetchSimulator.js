@@ -6,7 +6,7 @@ const ENDPOINTS = {
   SEARCH: 'https://api.mercadolibre.com/sites/MLB/search?q=computador',
 };
 
-const TIME_IN_MILLISECONDS = 200;
+const TIME_IN_MILLISECONDS = 200; 
 
 const fetchSimulator = (url) => {
   if (url.endsWith('undefined')) {
