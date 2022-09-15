@@ -68,7 +68,10 @@ const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
-  li.addEventListener('click', cartItemClickListener);
+  li.addEventListener('click', (tirar) => {
+    const tirarItem = document.querySelector('.cart__items');
+    tirarItem.removeChild(tirar.target);
+  });
   return li;
 };
 
@@ -88,12 +91,19 @@ const tiposProdutos = async () => {
   });
 };
 
-// const addCarrinho = async () => {
-//   const itensCarrinho = document.querySelector('.cart_items');
-//   const carrinho = await fetchItem('id');
-//   itensCarrinho.appendChild(createCartItemElement(carrinho));
-// }
+const addCarrinho = async () => {
+  const itensCarrinho = document.querySelector('.cart__items');
+  const btn = document.querySelectorAll('.item__add');
+  btn.forEach((btt) => {
+  btt.addEventListener('click', async (event) => {
+    const e = event.target.parentNode.firstChild;
+    const carrinho = await fetchItem(e.innerText);
+    itensCarrinho.appendChild(createCartItemElement(carrinho));
+    });
+  });
+};
 
-window.onload = () => { 
-  tiposProdutos();
+window.onload = async () => { 
+  await tiposProdutos();
+  await addCarrinho();
 };
