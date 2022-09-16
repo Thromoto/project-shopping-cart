@@ -1,7 +1,11 @@
 // Esse tipo de comentário que estão antes de todas as funções são chamados de JSdoc,
 // experimente passar o mouse sobre o nome das funções e verá que elas possuem descrições! 
 
+// const getSavedCartItems = require("./helpers/getSavedCartItems");
+
 // Fique a vontade para modificar o código já escrito e criar suas próprias funções!
+
+const itemCarrinho = document.querySelector('.cart__items');
 
 /**
  * Função responsável por criar e retornar o elemento de imagem do produto.
@@ -69,8 +73,7 @@ const createCartItemElement = ({ id, title, price }) => {
   li.className = 'cart__item';
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.addEventListener('click', (tirar) => {
-    const tirarItem = document.querySelector('.cart__items');
-    tirarItem.removeChild(tirar.target);
+    itemCarrinho.removeChild(tirar.target);
   });
   return li;
 };
@@ -92,18 +95,33 @@ const tiposProdutos = async () => {
 };
 
 const addCarrinho = async () => {
-  const itensCarrinho = document.querySelector('.cart__items');
   const btn = document.querySelectorAll('.item__add');
   btn.forEach((btt) => {
   btt.addEventListener('click', async (event) => {
     const e = event.target.parentNode.firstChild;
     const carrinho = await fetchItem(e.innerText);
-    itensCarrinho.appendChild(createCartItemElement(carrinho));
+    itemCarrinho.appendChild(createCartItemElement(carrinho));
+    saveCartItems(itemCarrinho.innerHTML);
     });
+  });
+};
+
+// const salvarStorage = async () => {
+//   const itensCarrinho = document.querySelector('.cart__items');
+//   const pegarItems = await getSavedCartItems();
+//   pegarItems = itensCarrinho.innerHTML;
+// }
+
+const limparCarrinho = () => {
+  const btnLimpar = document.querySelector('.empty-cart');
+  btnLimpar.addEventListener('click', () => {
+    itemCarrinho.innerHTML = '';
   });
 };
 
 window.onload = async () => { 
   await tiposProdutos();
   await addCarrinho();
+  // await salvarStorage();
+  limparCarrinho();
 };
