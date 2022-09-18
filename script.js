@@ -119,9 +119,21 @@ const limparCarrinho = () => {
   });
 };
 
+const carregando = () => {
+  const load = document.querySelector('.container');
+  load.appendChild(createCustomElement('div', 'loading', 'carregando...'));
+};
+
+const retiraCarregando = () => {
+  const offload = document.querySelector('div.loading');
+  offload.remove();
+};
+
 window.onload = async () => { 
+  carregando();
   await tiposProdutos();
   await addCarrinho();
   // await salvarStorage();
   limparCarrinho();
+  retiraCarregando();
 };
